@@ -86,4 +86,36 @@ const getSubjectFile = (req, res) => {
   });
 };
 
-module.exports = { getSubject, getSubjects, getSubjectFile };
+const getSubjectFilesRecursive = (dirPath) => {
+  let files = [];
+
+  fs.readdirSync(dirPath).forEach((file) => {
+    const filePath = path.join(dirPath, file);
+    const stat = fs.statSync(filePath);
+
+    if (stat.isDirectory()) {
+      files = files.concat(getSubjectFilesRecursive(filePath));
+    } else {
+      files.push(filePath);
+    }
+  });
+
+  return files;
+};
+
+const getSubjectFiles = (req, res) => {
+  const { subject } = req.params;
+  const subjectDir = path.join(dataDir, subject);
+
+  try {
+    const files = getSubjectFilesRecursive(subjectDir);
+    const relativeFiles = files.map((file) => path.relative(subjectDir, file));
+
+    res.json(relativeFiles);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+module.exports = { getSubject, getSubjects, getSubjectFiles, getSubjectFile };
