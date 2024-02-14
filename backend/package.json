@@ -1,0 +1,23 @@
+{
+	"name": "virtual-lab-backend",
+	"version": "1.0.0",
+	"description": "Backend for the virtual lab website",
+	"main": "src/app.js",
+	"scripts": {
+		"start": "nodemon src/app.js"
+	},
+	"keywords": [
+		"learning",
+		"website",
+		"backend",
+		"express"
+	],
+	"author": "Your Name",
+	"license": "MIT",
+	"dependencies": {
+		"cors": "^2.8.5",
+		"express": "^4.17.1",
+		"morgan": "^1.10.0",
+		"nodemon": "^3.0.3"
+	}
+}
